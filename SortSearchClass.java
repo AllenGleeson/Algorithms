@@ -4,14 +4,20 @@ public class SortSearchClass<T extends Comparable<? super T>> {
     // Bubble Sort
     public void bubbleSort(T[] array) {
         int n = array.length;
+        boolean swapped;
         for (int i = 0; i < n - 1; i++) {
+            swapped = false;
             for (int j = 0; j < n - i - 1; j++) {
                 if (array[j].compareTo(array[j + 1]) > 0) {
                     T temp = array[j];
                     array[j] = array[j + 1];
                     array[j + 1] = temp;
+                    swapped = true;
                 }
             }
+            // If no swaps on pass through then break early
+            if (!swapped)
+                break;
         }
     }
 
@@ -54,9 +60,12 @@ public class SortSearchClass<T extends Comparable<? super T>> {
         while (left <= right) {
             int mid = left + (right - left) / 2;
             int cmp = array[mid].compareTo(target);
-            if (cmp == 0) return mid;
-            if (cmp < 0) left = mid + 1;
-            else right = mid - 1;
+            if (cmp == 0)
+                return mid;
+            if (cmp < 0)
+                left = mid + 1;
+            else
+                right = mid - 1;
         }
         return -1;
     }
