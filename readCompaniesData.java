@@ -8,42 +8,89 @@ public class readCompaniesData {
         // parsing and reading the CSV file data into the object array
         File directory = new File("./");
         String name = directory.getAbsolutePath() + "//companies.csv";
-        Company[] companies;
+        // Creating multiple arrays to store different numbers of unsorted records to
+        // test time
+        Company[] companies10 = new Company[10];
+        Company[] companies100 = new Company[100];
+        Company[] companies1000 = new Company[1000];
+        Company[] companies5000 = new Company[5000];
+        Company[] companies10000 = new Company[10000];
+
+        // Store references in a 2D array
+        Company[][] companies = new Company[5][];
+        companies[0] = companies10;
+        companies[1] = companies100;
+        companies[2] = companies1000;
+        companies[3] = companies5000;
+        companies[4] = companies10000;
+
         try (Scanner scanner = new Scanner(new File(name))) {
-            companies = new Company[10000];
-            // this will just print the header in CSV file
             scanner.nextLine();
-            int i = 0;
-            String sGetData;
+
+            // Load data once into a big list
+            List<Company> allCompanies = new ArrayList<>();
             while (scanner.hasNextLine()) {
-                sGetData = scanner.nextLine();
+                String sGetData = scanner.nextLine();
                 String[] data = sGetData.split(";");
-                companies[i++] = new Company(Integer.parseInt(data[0]), data[1], data[2], data[3],
+
+                Company company = new Company(
+                        Integer.parseInt(data[0]), data[1], data[2], data[3],
                         Integer.parseInt(data[4]), Long.parseLong(data[5]));
+                allCompanies.add(company);
             }
-            // closes the scanner
+
+            // Fills each array from the list with numbers of records it can hold
+            for (int i = 0; i < companies.length; i++) {
+                Company[] array = companies[i];
+                for (int j = 0; j < array.length && j < allCompanies.size(); j++) {
+                    array[j] = allCompanies.get(j);
+                }
+            }
         }
 
         // we can print details due to overridden toString method in the class below
-        System.out.println(companies[0]);
-        System.out.println(companies[1]);
+        System.out.println(companies10000[0]);
+        System.out.println(companies10000[1]);
 
         // we can compare objects based on their ID due to overridden CompareTo method
         // in the class below
-        System.out.println(companies[0] == companies[0]);
-        System.out.println(companies[0] == companies[1]);
+        System.out.println(companies10000[0] == companies10000[0]);
+        System.out.println(companies10000[0] == companies10000[1]);
 
+        // Question 1
         SortSearchClass<Company> SortSearchClass = new SortSearchClass<>();
 
         System.out.println("First 10 Companies before bubblesort");
         for (int i = 0; i < 10; i++) {
-            System.out.println(companies[i]);
+            System.out.println(companies10000[i]);
         }
-        SortSearchClass.bubbleSort(companies);
+        SortSearchClass.bubbleSort(companies10000);
         System.out.println("First 10 Companies after bubblesort");
         for (int i = 0; i < 10; i++) {
-            System.out.println(companies[i]);
+            System.out.println(companies10000[i]);
         }
+
+        // Question 2
+        for (Company[] companyArray : companies) {
+            // Skip empty arrays
+            if (companyArray == null || companyArray[0] == null)
+                continue;
+
+            System.out.println("Sorting Companies " + companyArray.length + " using Bubble Sort...");
+
+            long startTime = System.nanoTime();
+            SortSearchClass.bubbleSort(companyArray);
+            long endTime = System.nanoTime();
+
+            long durationMillis = (endTime - startTime) / 1_000_000;
+            System.out
+                    .println("Bubble Sort on " + companyArray.length + " companies took: " + durationMillis + " ms\n");
+        }
+
+        // Question 3
+        // Question 4
+        // Question 5
+        // Question 6
     }
 }
 
@@ -65,16 +112,18 @@ class Company implements Comparable<Object> {
         this.lCvv = lInCvv;
     }
 
+    // the objects can be compared when sorting/searching
+    @Override
+    public int compareTo(Object obj) {
+        Company company = (Company) obj;
 
-	// the objects can be compared when sorting/searching
-	@Override
-	public int compareTo(Object obj) {
-		/*
-		 * Edit this section so it compares the appropriate
-		 * column you wish to sort by
-		 */
-		Company mycompany = (Company) obj;
-		return Long.compare(this.lCvv, mycompany.getlCvv());
+        int primary = Long.compare(this.lCvv, company.getlCvv());
+        if (primary != 0) {
+            return primary;
+        }
+
+        // If the CVV is the same for both objects then it will compare by ID
+        return Integer.compare(this.iId, company.getiId());
     }
 
     @Override
