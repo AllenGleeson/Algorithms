@@ -15,7 +15,8 @@ public class readCompaniesData {
         Company[] companies1000 = new Company[1000];
         Company[] companies5000 = new Company[5000];
         Company[] companies10000 = new Company[10000];
-
+        // Quick sort companies
+        Company[] companies10000quicksort = new Company[10000];
         // Store references in a 2D array
         Company[][] companies = new Company[5][];
         companies[0] = companies10;
@@ -28,6 +29,7 @@ public class readCompaniesData {
             scanner.nextLine();
 
             // Load data once into a big list
+            int companyIndex  = 0;
             List<Company> allCompanies = new ArrayList<>();
             while (scanner.hasNextLine()) {
                 String sGetData = scanner.nextLine();
@@ -36,10 +38,14 @@ public class readCompaniesData {
                 Company company = new Company(
                         Integer.parseInt(data[0]), data[1], data[2], data[3],
                         Integer.parseInt(data[4]), Long.parseLong(data[5]));
+                // Adding company to allCompanies 2d array
                 allCompanies.add(company);
+                // Adding companies to companies10000quicksort to apply quick sort on
+                companies10000quicksort[companyIndex ] = company;
+                companyIndex  += 1;
             }
 
-            // Fills each array from the list with numbers of records it can hold
+            // Fills each array from the list with number of records it can hold
             for (int i = 0; i < companies.length; i++) {
                 Company[] array = companies[i];
                 for (int j = 0; j < array.length && j < allCompanies.size(); j++) {
@@ -60,12 +66,12 @@ public class readCompaniesData {
         // Question 1
         SortSearchClass<Company> SortSearchClass = new SortSearchClass<>();
 
-        System.out.println("First 10 Companies before bubblesort");
+        System.out.println("First 10 Companies before Bubble Sort");
         for (int i = 0; i < 10; i++) {
             System.out.println(companies10000[i]);
         }
         SortSearchClass.bubbleSort(companies10000);
-        System.out.println("First 10 Companies after bubblesort");
+        System.out.println("First 10 Companies after Bubble Sort");
         for (int i = 0; i < 10; i++) {
             System.out.println(companies10000[i]);
         }
@@ -88,12 +94,22 @@ public class readCompaniesData {
         }
 
         // Question 3
+        System.out.println("First 10 Companies before Quick Sort");
+        for (int i = 0; i < 10; i++) {
+            System.out.println(companies10000quicksort[i]);
+        }
+        SortSearchClass.quickSort(companies10000quicksort);
+        System.out.println("First 10 Companies after Quick Sort");
+        for (int i = 0; i < 10; i++) {
+            System.out.println(companies10000quicksort[i]);
+        }
         // Question 4
         // Question 5
         // Instantiate new AddRecord to scan new company from user
         AddRecord addRecord = new AddRecord();
         addRecord.scanNewCompany();
-        // create new array from old array, allocate one more element and the new company to the end of array
+        // create new array from old array, allocate one more element and the new
+        // company to the end of array
         companies10000 = Arrays.copyOf(companies10000, companies10000.length + 1);
         companies10000[companies10000.length - 1] = addRecord.getNewCompany();
         // Question 6
