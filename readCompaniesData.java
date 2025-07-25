@@ -90,7 +90,14 @@ public class readCompaniesData {
         // Question 3
         // Question 4
         // Question 5
+        // Instantiate new AddRecord to scan new company from user
+        AddRecord addRecord = new AddRecord();
+        addRecord.scanNewCompany();
+        // create new array from old array, allocate one more element and the new company to the end of array
+        companies10000 = Arrays.copyOf(companies10000, companies10000.length + 1);
+        companies10000[companies10000.length - 1] = addRecord.getNewCompany();
         // Question 6
+        // Go to AddRecord.java
     }
 }
 
