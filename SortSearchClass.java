@@ -55,7 +55,7 @@ public class SortSearchClass<T extends Comparable<? super T>> {
     }
 
     // Binary Search
-    public int binarySearch(T[] array, T target) {
+    public static <T extends Comparable<T>> int binarySearch(T[] array, T target) {
         int left = 0, right = array.length - 1;
         while (left <= right) {
             int mid = left + (right - left) / 2;
