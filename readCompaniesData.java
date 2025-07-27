@@ -29,7 +29,7 @@ public class readCompaniesData {
             scanner.nextLine();
 
             // Load data once into a big list
-            int companyIndex  = 0;
+            int companyIndex = 0;
             List<Company> allCompanies = new ArrayList<>();
             while (scanner.hasNextLine()) {
                 String sGetData = scanner.nextLine();
@@ -41,8 +41,8 @@ public class readCompaniesData {
                 // Adding company to allCompanies 2d array
                 allCompanies.add(company);
                 // Adding companies to companies10000quicksort to apply quick sort on
-                companies10000quicksort[companyIndex ] = company;
-                companyIndex  += 1;
+                companies10000quicksort[companyIndex] = company;
+                companyIndex += 1;
             }
 
             // Fills each array from the list with number of records it can hold
@@ -104,6 +104,12 @@ public class readCompaniesData {
             System.out.println(companies10000quicksort[i]);
         }
         // Question 4
+        int index = SortSearchClass.binarySearch(companies, target);
+        if (index != -1) {
+            System.out.println("Found: " + companies[index]);
+        } else {
+            System.out.println("Company not found.");
+        }
         // Question 5
         // Instantiate new AddRecord to scan new company from user
         AddRecord addRecord = new AddRecord();
