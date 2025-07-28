@@ -1,3 +1,4 @@
+import java.util.Comparator;
 
 public class SortSearchClass<T extends Comparable<? super T>> {
 
@@ -55,11 +56,11 @@ public class SortSearchClass<T extends Comparable<? super T>> {
     }
 
     // Binary Search
-    public static <T extends Comparable<T>> int binarySearch(T[] array, T target) {
+    public int binarySearch(T[] array, T target, Comparator<T> comparator) {
         int left = 0, right = array.length - 1;
         while (left <= right) {
             int mid = left + (right - left) / 2;
-            int cmp = array[mid].compareTo(target);
+            int cmp = comparator.compare(array[mid], target);
             if (cmp == 0)
                 return mid;
             if (cmp < 0)
