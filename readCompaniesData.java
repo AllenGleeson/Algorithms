@@ -17,6 +17,8 @@ public class readCompaniesData {
         Company[] companies10000 = new Company[10000];
         // Quick sort companies
         Company[] companies10000quicksort = new Company[10000];
+        // Binary search companies
+        Company[] companies10000binarySearch = new Company[10000];
         // Store references in a 2D array
         Company[][] companies = new Company[5][];
         companies[0] = companies10;
@@ -42,6 +44,7 @@ public class readCompaniesData {
                 allCompanies.add(company);
                 // Adding companies to companies10000quicksort to apply quick sort on
                 companies10000quicksort[companyIndex] = company;
+                companies10000binarySearch[companyIndex] = company;
                 companyIndex += 1;
             }
 
@@ -104,11 +107,14 @@ public class readCompaniesData {
             System.out.println(companies10000quicksort[i]);
         }
         // Question 4
-        int index = SortSearchClass.binarySearch(companies, target);
+        // Using array sort to sort the companies
+        Arrays.sort(companies10000);
+        Company target = new Company(0, "Acme Ltd", "", "", 0, 0);
+        int index = SortSearchClass.binarySearch(companies10000, target, Comparator.comparing(Company::getsName));
         if (index != -1) {
-            System.out.println("Found: " + companies[index]);
+            System.out.println("Found: " + companies10000[index] + " in Companys array");
         } else {
-            System.out.println("Company not found.");
+            System.out.println("Not found in Companys array");
         }
         // Question 5
         // Instantiate new AddRecord to scan new company from user
