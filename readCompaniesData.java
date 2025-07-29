@@ -107,15 +107,15 @@ public class readCompaniesData {
             System.out.println(companies10000quicksort[i]);
         }
         // Question 4
-        // Using array sort to sort the companies
-        Arrays.sort(companies10000);
-        Company target = new Company(0, "Acme Ltd", "", "", 0, 0);
-        int index = SortSearchClass.binarySearch(companies10000, target, Comparator.comparing(Company::getsName));
-        if (index != -1) {
-            System.out.println("Found: " + companies10000[index] + " in Companys array");
-        } else {
-            System.out.println("Not found in Companys array");
-        }
+        Scanner input = new Scanner(System.in);
+        System.out.println("Search by: name, country, or currency?");
+        String field = input.nextLine().toLowerCase();
+        System.out.println("Enter value to search:");
+        String value = input.nextLine();
+        Comparator<Company> comparator;
+        Company target;
+
+        
         // Question 5
         // Instantiate new AddRecord to scan new company from user
         AddRecord addRecord = new AddRecord();
