@@ -137,6 +137,15 @@ public class readCompaniesData {
                 return;
         }
 
+        if (comparator != null) {
+            int index = SortSearchClass.binarySearch(companies10000binarySearch, target, comparator);
+            if (index != -1) {
+                System.out.println("Found: " + companies10000binarySearch[index] + " in companies array");
+            } else {
+                System.out.println("Not found in companies array");
+            }
+            input.close();
+        }
         // Question 5
         // Instantiate new AddRecord to scan new company from user
         AddRecord addRecord = new AddRecord();
