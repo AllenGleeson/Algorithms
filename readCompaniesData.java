@@ -115,7 +115,28 @@ public class readCompaniesData {
         Comparator<Company> comparator;
         Company target;
 
-        
+        switch (field) {
+            case "name":
+                comparator = Comparator.comparing(Company::getsName);
+                Arrays.sort(companies10000binarySearch, comparator);
+                target = new Company(0, value, "", "", 0, 0);
+                break;
+            case "country":
+                comparator = Comparator.comparing(Company::getsCountry);
+                Arrays.sort(companies10000binarySearch, comparator);
+                target = new Company(0, "", value, "", 0, 0);
+                break;
+            case "currency":
+                comparator = Comparator.comparing(Company::getsCurrency);
+                Arrays.sort(companies10000binarySearch, comparator);
+                target = new Company(0, "", "", value, 0, 0);
+                break;
+            default:
+                System.out.println("Invalid field selected.");
+                input.close();
+                return;
+        }
+
         // Question 5
         // Instantiate new AddRecord to scan new company from user
         AddRecord addRecord = new AddRecord();
