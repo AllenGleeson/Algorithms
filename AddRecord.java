@@ -59,8 +59,8 @@ public class AddRecord {
     private long lCvv;
 
     // Constructor
-    AddRecord() {
-        scanner = new Scanner(System.in);
+    AddRecord(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     // Gets data from user and creates new company
