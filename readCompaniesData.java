@@ -82,6 +82,7 @@ public class readCompaniesData {
         for (int i = 0; i < 10; i++) {
             System.out.println(companies10000[i]);
         }
+
         // Question 3
         System.out.println("----------------------------------------");
         System.out.println("First 10 Companies before Quick Sort");
@@ -94,6 +95,7 @@ public class readCompaniesData {
             System.out.println(companies10000quicksort[i]);
         }
         System.out.println("----------------------------------------");
+
         // Question 4
         Scanner input = new Scanner(System.in);
         System.out.println("Search by: name, country, or currency?");
@@ -150,6 +152,7 @@ public class readCompaniesData {
             }
         }
         System.out.println("----------------------------------------");
+
         // Question 5
         // Instantiate new AddRecord to scan new company from user
         AddRecord addRecord = new AddRecord(input);
@@ -158,8 +161,9 @@ public class readCompaniesData {
         // company to the end of array
         companies10000 = Arrays.copyOf(companies10000, companies10000.length + 1);
         companies10000[companies10000.length - 1] = addRecord.getNewCompany();
-        System.in.read(); // Waits for a single byte of input
+        System.in.read();
         input.close();
+
         // Question 6
         // Go to AddRecord.java
     }
