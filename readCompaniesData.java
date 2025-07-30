@@ -42,7 +42,7 @@ public class readCompaniesData {
                         Integer.parseInt(data[4]), Long.parseLong(data[5]));
                 // Adding company to allCompanies 2d array
                 allCompanies.add(company);
-                // Adding companies to companies10000quicksort to apply quick sort on
+                // Adding companies to companies10000quicksort and companies10000binarySearch to apply sorting and searching on fresh unsorted data
                 companies10000quicksort[companyIndex] = company;
                 companies10000binarySearch[companyIndex] = company;
                 companyIndex += 1;
@@ -57,29 +57,12 @@ public class readCompaniesData {
             }
         }
 
-        // we can print details due to overridden toString method in the class below
-        System.out.println(companies10000[0]);
-        System.out.println(companies10000[1]);
-
-        // we can compare objects based on their ID due to overridden CompareTo method
-        // in the class below
-        System.out.println(companies10000[0] == companies10000[0]);
-        System.out.println(companies10000[0] == companies10000[1]);
-
-        // Question 1
+        // Question 1 & 2
         SortSearchClass<Company> SortSearchClass = new SortSearchClass<>();
-
-        System.out.println("First 10 Companies before Bubble Sort");
+        System.out.println("First 10 Companies in 10000 array before Bubble Sort");
         for (int i = 0; i < 10; i++) {
             System.out.println(companies10000[i]);
         }
-        SortSearchClass.bubbleSort(companies10000);
-        System.out.println("First 10 Companies after Bubble Sort");
-        for (int i = 0; i < 10; i++) {
-            System.out.println(companies10000[i]);
-        }
-
-        // Question 2
         for (Company[] companyArray : companies) {
             // Skip empty arrays
             if (companyArray == null || companyArray[0] == null)
@@ -95,8 +78,12 @@ public class readCompaniesData {
             System.out
                     .println("Bubble Sort on " + companyArray.length + " companies took: " + durationMillis + " ms\n");
         }
-
+        System.out.println("First 10 Companies in 10000 array after Bubble Sort");
+        for (int i = 0; i < 10; i++) {
+            System.out.println(companies10000[i]);
+        }
         // Question 3
+        System.out.println("----------------------------------------");
         System.out.println("First 10 Companies before Quick Sort");
         for (int i = 0; i < 10; i++) {
             System.out.println(companies10000quicksort[i]);
@@ -106,6 +93,7 @@ public class readCompaniesData {
         for (int i = 0; i < 10; i++) {
             System.out.println(companies10000quicksort[i]);
         }
+        System.out.println("----------------------------------------");
         // Question 4
         Scanner input = new Scanner(System.in);
         System.out.println("Search by: name, country, or currency?");
@@ -117,43 +105,61 @@ public class readCompaniesData {
 
         switch (field) {
             case "name":
-                comparator = Comparator.comparing(Company::getsName);
+                comparator = new Comparator<Company>() {
+                    @Override
+                    public int compare(Company c1, Company c2) {
+                        return c1.getsName().compareTo(c2.getsName());
+                    }
+                };
                 Arrays.sort(companies10000binarySearch, comparator);
                 target = new Company(0, value, "", "", 0, 0);
                 break;
             case "country":
-                comparator = Comparator.comparing(Company::getsCountry);
+                comparator = new Comparator<Company>() {
+                    @Override
+                    public int compare(Company c1, Company c2) {
+                        return c1.getsCountry().compareTo(c2.getsCountry());
+                    }
+                };
                 Arrays.sort(companies10000binarySearch, comparator);
                 target = new Company(0, "", value, "", 0, 0);
                 break;
             case "currency":
-                comparator = Comparator.comparing(Company::getsCurrency);
+                comparator = new Comparator<Company>() {
+                    @Override
+                    public int compare(Company c1, Company c2) {
+                        return c1.getsCurrency().compareTo(c2.getsCurrency());
+                    }
+                };
                 Arrays.sort(companies10000binarySearch, comparator);
                 target = new Company(0, "", "", value, 0, 0);
                 break;
             default:
                 System.out.println("Invalid field selected.");
-                input.close();
                 return;
         }
 
         if (comparator != null) {
+            System.out.println("Searching for: " + value);
             int index = SortSearchClass.binarySearch(companies10000binarySearch, target, comparator);
             if (index != -1) {
-                System.out.println("Found: " + companies10000binarySearch[index] + " in companies array");
+                System.out.println("Found:");
+                System.out.println(companies10000binarySearch[index]);
             } else {
                 System.out.println("Not found in companies array");
             }
-            input.close();
         }
+        System.out.println("----------------------------------------");
         // Question 5
         // Instantiate new AddRecord to scan new company from user
-        AddRecord addRecord = new AddRecord();
+        AddRecord addRecord = new AddRecord(input);
         addRecord.scanNewCompany();
         // create new array from old array, allocate one more element and the new
         // company to the end of array
         companies10000 = Arrays.copyOf(companies10000, companies10000.length + 1);
         companies10000[companies10000.length - 1] = addRecord.getNewCompany();
+        System.in.read(); // Waits for a single byte of input
+        input.close();
         // Question 6
         // Go to AddRecord.java
     }
